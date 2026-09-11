@@ -2,96 +2,117 @@
 
 
 
-# [Project Name] 🎯
+# FOOD FORENSIC 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name:USELESS
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: ALEENA N - Government Engineering College Kozhikode
+- Member 2: ESHA G -  Government Engineering College Kozhikode
+
 
 ### Project Description
-[2-3 lines about what your project does]
+Food Forensics is an interactive web app that uses computer vision to analyze everyday foods like bananas, chapatis etc... It checks things like ripeness, shape, and so on in a fun and simple way.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+We’re solving the extremely serious problem of people not knowing whether their chapati is round enough, their banana is ripe enough!!!
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We use computer vision and OpenCV to turn everyday food into a mini forensic investigation—checking banana ripeness, judging chapati shape
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Languages used: HTML, CSS, JavaScript
+Frameworks used: Node.js
+Libraries used: OpenCV.js
+Tools used: Visual Studio Code, GitHub, Browser, remove.bg API
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+Main components: Laptop/PC, Webcam/Camera
+Specifications: Standard laptop/PC with internet connectivity
+Tools required: Camera/phone for capturing food images
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+npm install
 
 # Run
-[commands]
+node server.js then open http://localhost:3000
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="Screenshot (8)" src="https://github.com/user-attachments/assets/f3b6ead1-46ba-42c2-8a96-c9a6b338d5e9" />
+The Home page gives a simple introduction to Food Forensics with an option to Explore the Lab. Users can also directly select a food such as Banana or Chapati, which takes them straight to its respective analysis lab.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="Screenshot (9)" src="https://github.com/user-attachments/assets/438f0587-79aa-4d6e-a0e3-fd318aeed496" />
+The Lab page allows users to manually choose the food they want to investigate. Users can select Banana, Chapati to enter the corresponding analysis lab and explore its specific computer-vision features.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="Screenshot (10)" src="https://github.com/user-attachments/assets/258b15db-bd36-4432-9f5e-95563f51b415" />
+The third page displays the selected food's dedicated analysis lab. Based on the user's choice, it opens either the Banana Lab or Chapati Lab, where the food image can be analyzed using computer vision.
+
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+🏠 HOME PAGE
 
-For Hardware:
+       │
+       ├────────------───────┐
+       ↓                     ↓
+       
+ 🔬 EXPLORE LAB        Direct Selection
+ 
+       │                    │
+       ↓                    ↓
+       
+   🧪 LAB PAGE      🍌 Banana / 🫓 Chapati
+      
+       │                       │
+       └──────-----─┬─---──────┘
+       
+               ↓
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+               
+        📷 UPLOAD IMAGE
+               │
+               
+               ↓
+      🔍 IMAGE PROCESSING
+               │
+               ↓
+       👁️ OPENCV ANALYSIS
+          │           │
+          ↓           ↓
+      🍌 Banana    🫓 Chapati
+      Ripeness       Shape
+          │           │
+          └─────┬─────┘
+                ↓
+          📊 FINAL RESULTS
+The diagram illustrates the Food Forensics workflow, starting from the Home page where users can explore the lab or directly select a food. The selected Banana or Chapati is then uploaded and processed using OpenCV-based computer vision, which analyzes its ripeness or shape and displays the final results.
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
 
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
+https://github.com/user-attachments/assets/baf14964-65f2-4c81-a4f3-ded16df0f345
+This video demonstrates the complete working of Food Forensics, from selecting a food and uploading an image to processing it with computer vision and displaying the final analysis results. It showcases the Banana and Chapati labs and how users interact with each feature.
+
+
+
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+ALEENA N : Idea Research ,Lab page,Banana Analyser
+ESHA G :  Idea Research ,Home page,Chapathi Analyser
+
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
