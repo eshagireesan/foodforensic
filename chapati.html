@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Chapati Analysis | Food Forensics</title>
+
+
+    <!-- OpenCV.js -->
+  <script src="https://docs.opencv.org/4.x/opencv.js"></script>
+
+
+    <!-- CSS -->
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f0e8;
+            color: #24221f;
+            min-height: 100vh;
+        }
+
+
+        /* HEADER */
+
+        header {
+            height: 75px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 6%;
+            border-bottom: 1px solid #d8d0c4;
+            background: #f5f0e8;
+        }
+
+        .logo {
+            color: #24221f;
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            color: #24221f;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.5;
+        }
+
+
+        /* HEADING */
+
+        .page-heading {
+            text-align: center;
+            padding: 70px 20px 40px;
+        }
+
+        .small-title {
+            color: #24221f;
+            letter-spacing: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .page-heading p {
+            color: #6d675f;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+
+        /* MAIN */
+
+        .analysis-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 20px;
+            margin-bottom: 60px;
+        }
+
+
+        /* BOXES */
+
+        .image-area,
+        .results-area {
+            background: #f5f0e8;
+            border: 1px solid #d8d0c4;
+            padding: 35px 30px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+        }
+
+
+        /* IMAGE */
+
+        .image-box {
+            height: 350px;
+            border: 2px dashed #d8d0c4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background: #f5f0e8;
+            transition: border-color 0.3s;
+        }
+
+        .image-box:hover {
+            border-color: #24221f;
+        }
+
+        #placeholder {
+            color: #6d675f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #chapatiImage {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            object-fit: contain;
+        }
+
+
+        /* FILE INPUT */
+
+        #imageInput {
+            display: none;
+        }
+
+        #processedCanvas {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 12px 22px;
+            border: 1px solid #24221f;
+            background: transparent;
+            color: #24221f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .upload-button:hover {
+            background: #24221f;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+
+        /* ANALYZE BUTTON */
+
+        #analyzeButton {
+            padding: 12px 24px;
+            border: none;
+            background: #24221f;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #analyzeButton:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+
+
+        /* RESULTS */
+
+        .result-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #d8d0c4;
+            background: #f5f0e8;
+        }
+
+        .result-card span {
+            color: #6d675f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .result-card strong {
+            color: #24221f;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            nav {
+                gap: 15px;
+            }
+
+            .analysis-container {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .page-heading {
+                padding: 50px 15px 30px;
+            }
+
+            .page-heading h1 {
+                font-size: 32px;
+            }
+
+            .image-box {
+                height: 280px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            🔬 Food Forensics
+        </div>
+
+        <nav>
+
+            <a href="lab.html">
+                Home
+            </a>
+
+            <a href="#">
+                Lab
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- HEADING -->
+
+    <section class="page-heading">
+
+        <div class="small-title">
+            🔬 FOOD FORENSIC LAB
+        </div>
+
+        <h1>
+            🫓 CHAPATI SHAPE DETECTION
+        </h1>
+
+        <p>
+            Let's investigate how close your chapati
+            is to a perfect circle.
+        </p>
+
+    </section>
+
+
+
+    <!-- ANALYSIS -->
+
+    <section class="analysis-container">
+
+
+        <!-- IMAGE SIDE -->
+
+        <div class="image-area">
+
+            <h2>
+                🫓 Your Specimen
+            </h2>
+
+
+            <div class="image-box">
+
+                <p id="placeholder">
+                    Upload a chapati image
+                </p>
+
+                <img
+                    id="chapatiImage"
+                    alt="Chapati preview"
+                >
+
+            </div>
+
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+            >
+
+
+            <label
+                for="imageInput"
+                class="upload-button"
+            >
+                📷 SELECT CHAPATI
+            </label>
+
+
+            <button
+                id="analyzeButton"
+                onclick="analyzeChapati()"
+            >
+                🔍 ANALYZE
+            </button>
+
+        </div>
+
+            <canvas id="processedCanvas"></canvas>
+
+        <!-- RESULTS SIDE -->
+
+        <div class="results-area">
+
+            <h2>
+                📊 Forensic Report
+            </h2>
+
+
+            <div class="result-card">
+
+                <span>
+                    Circularity
+                </span>
+
+                <strong id="circularity">
+                    --
+                </strong>
+
+            </div>
+            <div class="result-card">
+           <span>Chapati Shape Score</span>
+             <strong id="shapeScore">--/100</strong>
+            </div>
+
+            <div class="result-card">
+
+                <span>
+                    Area
+                </span>
+
+                <strong id="area">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <span>
+                    Perimeter
+                </span>
+
+                <strong id="perimeter">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <span>
+                    Verdict
+                </span>
+
+                <strong id="verdict">
+                    Waiting...
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        let imageInput =
+            document.getElementById("imageInput");
+
+        let chapatiImage =
+            document.getElementById("chapatiImage");
+
+        let placeholder =
+            document.getElementById("placeholder");
+
+
+        /*
+         * IMAGE PREVIEW
+         */
+
+        imageInput.addEventListener(
+            "change",
+            function () {
+
+                let file = this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                let imageURL =
+                    URL.createObjectURL(file);
+
+                chapatiImage.src =
+                    imageURL;
+
+                chapatiImage.style.display =
+                    "block";
+
+                placeholder.style.display =
+                    "none";
+
+            }
+        );
+          async function removeBackground() {
+
+    const file = imageInput.files[0];
+
+    if (!file) {
+        alert("Please select an image first!");
+        return false;
+    }
+
+    try {
+
+        console.log("Sending image for AI background removal...");
+
+        const formData = new FormData();
+
+        formData.append("image", file);
+
+        const response = await fetch(
+            "/remove-background",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Background removal failed");
+        }
+
+        // Get removed-background image
+        const blob = await response.blob();
+
+        const imageURL = URL.createObjectURL(blob);
+
+        // Display result
+        chapatiImage.src = imageURL;
+
+        await new Promise((resolve) => {
+            chapatiImage.onload = resolve;
+        });
+
+        // Put transparent image onto canvas
+        const canvas =
+            document.getElementById("processedCanvas");
+
+        const context =
+            canvas.getContext("2d");
+
+        canvas.width =
+            chapatiImage.naturalWidth;
+
+        canvas.height =
+            chapatiImage.naturalHeight;
+
+        context.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        context.drawImage(
+            chapatiImage,
+            0,
+            0
+        );
+
+        console.log("AI background removal complete!");
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Background removal failed. Check the server."
+        );
+
+        return false;
+    }
+}
+        /*
+         * CHAPATI ANALYSIS
+         */
+
+async function analyzeChapati() {
+
+    if (typeof cv === "undefined") {
+        alert("OpenCV is still loading!");
+        return;
+    }
+
+    if (!chapatiImage.src) {
+        alert("Please select a chapati image first!");
+        return;
+    }
+
+    // STEP 1: Remove background
+    const backgroundRemoved =
+    await removeBackground();
+
+if (!backgroundRemoved) {
+    return;
+}
+
+    // STEP 2: Read cleaned canvas
+    let processedCanvas =
+        document.getElementById("processedCanvas");
+
+    let image = cv.imread(processedCanvas);
+
+    // STEP 3: Use alpha channel to create mask
+    let mask = new cv.Mat();
+
+    let channels = new cv.MatVector();
+    cv.split(image, channels);
+
+    let alpha = channels.get(3);
+
+    // Use only non-transparent pixels
+    cv.threshold(
+        alpha,
+        mask,
+        10,
+        255,
+        cv.THRESH_BINARY
+    );
+
+    // STEP 4: Find contours
+    let contours = new cv.MatVector();
+    let hierarchy = new cv.Mat();
+
+    cv.findContours(
+        mask,
+        contours,
+        hierarchy,
+        cv.RETR_EXTERNAL,
+        cv.CHAIN_APPROX_SIMPLE
+    );
+
+    // STEP 5: Find largest object
+    let largestContour = null;
+    let largestArea = 0;
+
+    for (let i = 0; i < contours.size(); i++) {
+
+        let contour = contours.get(i);
+
+        let area = cv.contourArea(contour);
+
+        if (area > largestArea) {
+
+            if (largestContour !== null) {
+                largestContour.delete();
+            }
+
+            largestArea = area;
+            largestContour = contour;
+
+        } else {
+
+            contour.delete();
+        }
+    }
+
+    // No object found
+    if (largestContour === null || largestArea < 1000) {
+
+        alert("No clear object detected!");
+
+        image.delete();
+        mask.delete();
+        contours.delete();
+        hierarchy.delete();
+        channels.delete();
+        alpha.delete();
+
+        return;
+    }
+
+    // STEP 6: Calculate perimeter
+    let perimeter =
+        cv.arcLength(largestContour, true);
+
+    // STEP 7: Calculate circularity
+    let circularity =
+        (4 * Math.PI * largestArea) /
+        (perimeter * perimeter);
+
+    let circularityPercentage =
+        circularity * 100;
+
+    // STEP 8: Bounding box
+    let boundingBox =
+        cv.boundingRect(largestContour);
+
+    let width = boundingBox.width;
+    let height = boundingBox.height;
+
+    let aspectRatio =
+        Math.min(width, height) /
+        Math.max(width, height);
+
+    let aspectPercentage =
+        aspectRatio * 100;
+
+    // STEP 9: Solidity
+    let hull = new cv.Mat();
+
+    cv.convexHull(
+        largestContour,
+        hull,
+        false,
+        true
+    );
+
+    let hullArea =
+        cv.contourArea(hull);
+
+    let solidity = 0;
+
+    if (hullArea > 0) {
+        solidity =
+            largestArea / hullArea;
+    }
+
+    let solidityPercentage =
+        solidity * 100;
+
+    // STEP 10: Chapati Shape Score
+
+    // STEP 10: Calibrated Chapati Shape Score
+
+let goodCircularity = 89.1;
+let badCircularity = 45.3;
+
+let goodScore = 98;
+let badScore = 20;
+
+let shapeScore =
+    badScore +
+    ((circularityPercentage - badCircularity) /
+    (goodCircularity - badCircularity)) *
+    (goodScore - badScore);
+
+// Keep score between 0 and 100
+shapeScore =
+    Math.max(0, Math.min(shapeScore, 100));
+
+    // STEP 11: Show results
+
+    document.getElementById("area").innerText =
+        largestArea.toFixed(2);
+
+    document.getElementById("perimeter").innerText =
+        perimeter.toFixed(2);
+
+    document.getElementById("circularity").innerText =
+        circularityPercentage.toFixed(1) + "%";
+
+    document.getElementById("shapeScore").innerText =
+        shapeScore.toFixed(0) + "/100";
+
+    // STEP 12: Verdict
+
+   // STEP 12: Verdict
+
+let verdict;
+
+if (circularityPercentage < 40) {
+
+    verdict = "🚨 NOT A CHAPATI";
+
+} else if (shapeScore >= 95) {
+
+    verdict = "👩‍🍳 MOM CERTIFIED";
+
+} else if (shapeScore >= 85) {
+
+    verdict = "🫓 ALMOST PERFECT";
+
+} else if (shapeScore >= 70) {
+
+    verdict = "😌 PRETTY ROUND";
+
+} else {
+
+    verdict = "🤨 NEEDS PRACTICE";
+}
+
+    document.getElementById("verdict").innerText =
+        verdict;
+
+    // Console information
+    console.log("Circularity:", circularityPercentage);
+    console.log("Aspect Ratio:", aspectPercentage);
+    console.log("Solidity:", solidityPercentage);
+    console.log("Shape Score:", shapeScore);
+
+    // Clean memory
+    largestContour.delete();
+    hull.delete();
+    image.delete();
+    mask.delete();
+    contours.delete();
+    hierarchy.delete();
+    channels.delete();
+    alpha.delete();
+}
+    </script>
+
+
+</body>
+
+</html>

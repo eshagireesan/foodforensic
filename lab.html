@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food Forensics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- OpenCV -->
+    <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            🔬 <span>Food Forensics</span>
+        </div>
+
+       <nav>
+    <a href="index.html">Home</a>
+    <a href="lab.html">Lab</a>
+    <a href="#">Leaderboard</a>
+</nav>
+    </header>
+
+
+    <!-- MAIN -->
+    <main>
+
+        <section class="hero">
+
+            <p class="small-title">🔬 FORENSIC FOOD LAB</p>
+
+            <h1>FOOD DETECTION</h1>
+
+            <p class="subtitle">
+                Investigate your food using completely unnecessary computer vision.
+            </p>
+
+        </section>
+
+
+        <!-- FOOD SELECTION -->
+
+        <section class="food-options">
+
+            <!-- BANANA -->
+            <div class="food-card banana-card">
+
+                <div class="food-image">
+                    🍌
+                </div>
+
+                <h2>Banana</h2>
+
+                <p>Check ripeness & colour</p>
+
+                <button onclick="window.location.href='banana.html'">
+                    INVESTIGATE →
+                </button>
+
+            </div>
+
+
+            <!-- CHAPATI -->
+            <div class="food-card chapati-card">
+
+                <div class="food-image">
+                    🫓
+                </div>
+
+                <h2>Chapati</h2>
+
+                <p>Analyze shape & circularity</p>
+
+                <button onclick="window.location.href='chapati.html'">
+                    INVESTIGATE →
+                </button>
+
+            </div>
+
+
+            <!--
+            <div class="food-card rice-card">
+
+                <div class="food-image">
+                    🍚
+                </div>
+
+                <h2>Rice</h2>
+
+                <p>Count individual grains</p>
+
+                <button onclick="selectFood('rice')">
+                    INVESTIGATE →
+                </button>
+
+            </div> -->
+
+        </section>
+
+
+        <!-- 
+
+        <section class="detection-section" id="detectionSection">
+
+            <h2>Food Detection</h2>
+
+            <p id="selectedFood">
+                Select a food above to begin investigation.
+            </p>
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+                <h3>Upload Food Image</h3>
+
+                <p>
+                    Place your food inside the viewport
+                </p>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+
+                <label for="imageInput" class="upload-button">
+                    SELECT IMAGE
+                </label>
+
+            </div>  -->
+
+            <!-- Image preview -->
+            <div class="preview-container">
+
+                <img
+                    id="previewImage"
+                    src=""
+                    alt="Food Preview"
+                >
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Food Forensics © 2026
+        <span>• Investigating what nobody asked us to investigate.</span>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

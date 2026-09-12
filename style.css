@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f0e8;
+    color: #24221f;
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    border-bottom: 1px solid #d8d0c4;
+    background: #f5f0e8;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #24221f;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+nav {
+    display: flex;
+    gap: 35px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #24221f;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.5;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    text-align: center;
+    padding: 70px 20px 40px;
+}
+
+.small-title {
+    font-size: 12px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: #24221f;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1;
+    letter-spacing: -2px;
+    font-weight: 900;
+    color: #24221f;
+}
+
+.subtitle {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6d675f;
+}
+
+/* =========================
+   FOOD CARDS
+========================= */
+
+.food-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 30px 6%;
+}
+
+.food-card {
+    width: 280px;
+    padding: 35px 25px;
+    text-align: center;
+    background: #f5f0e8;
+    border: 1px solid #d8d0c4;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.food-card:hover {
+    transform: translateY(-5px);
+    border-color: #24221f;
+}
+
+.food-image {
+    font-size: 65px;
+    margin-bottom: 20px;
+    user-select: none;
+    transition: transform 0.3s;
+}
+
+.food-card:hover .food-image {
+    transform: scale(1.15);
+}
+
+.food-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.food-card p {
+    color: #6d675f;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button,
+.upload-button {
+    display: inline-block;
+    border: none;
+    background: #24221f;
+    color: #ffffff;
+    padding: 12px 26px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+button:hover,
+.upload-button:hover {
+    background: #000000;
+    transform: translateY(-3px);
+}
+
+/* =========================
+   DETECTION
+========================= */
+
+.detection-section {
+    max-width: 850px;
+    margin: 60px auto 80px;
+    padding: 45px 30px;
+    text-align: center;
+    border: 1px solid #d8d0c4;
+    background: #f5f0e8;
+}
+
+.detection-section h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+
+#selectedFood {
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #6d675f;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   UPLOAD
+========================= */
+
+.upload-box {
+    border: 2px dashed #d8d0c4;
+    padding: 50px 20px;
+    transition: border-color 0.3s;
+}
+
+.upload-box:hover {
+    border-color: #24221f;
+}
+
+.upload-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.upload-box h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.upload-box p {
+    color: #6d675f;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+#imageInput {
+    display: none;
+}
+
+/* =========================
+   PREVIEW
+========================= */
+
+.preview-container {
+    margin-top: 30px;
+}
+
+#previewImage {
+    max-width: 100%;
+    max-height: 400px;
+    display: none;
+    border: 1px solid #d8d0c4;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #777067;
+    border-top: 1px solid #d8d0c4;
+}
+
+footer span {
+    opacity: 0.8;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+    nav {
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 50px 15px 30px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .detection-section {
+        margin: 40px 15px 60px;
+        padding: 30px 20px;
+    }
+
+    .food-card {
+        width: 100%;
+    }
+
+    footer span {
+        display: none;
+    }
+}

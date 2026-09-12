@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banana Analysis | Food Forensics</title>
+
+    <!-- OpenCV.js -->
+    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f0e8;
+            color: #24221f;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            height: 75px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 6%;
+            border-bottom: 1px solid #d8d0c4;
+            background: #f5f0e8;
+        }
+
+        .logo {
+            color: #24221f;
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            color: #24221f;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.5;
+        }
+
+        /* PAGE HEADING */
+        .page-heading {
+            text-align: center;
+            padding: 70px 20px 40px;
+        }
+
+        .small-title {
+            color: #24221f;
+            letter-spacing: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .page-heading p {
+            color: #6d675f;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* MAIN */
+        .analysis-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 20px;
+            margin-bottom: 60px;
+        }
+
+        /* BOXES */
+        .image-area,
+        .results-area {
+            background: #f5f0e8;
+            border: 1px solid #d8d0c4;
+            padding: 35px 30px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+        }
+
+        /* IMAGE BOX */
+        .image-box {
+            height: 350px;
+            border: 2px dashed #d8d0c4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background: #f5f0e8;
+            transition: border-color 0.3s;
+        }
+
+        .image-box:hover {
+            border-color: #24221f;
+        }
+
+        #placeholder {
+            color: #6d675f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #bananaImage {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            object-fit: contain;
+        }
+
+        /* FILE INPUT */
+        #imageInput {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 12px 22px;
+            border: 1px solid #24221f;
+            background: transparent;
+            color: #24221f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .upload-button:hover {
+            background: #24221f;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* ANALYZE BUTTON */
+        #analyzeButton {
+            padding: 12px 24px;
+            border: none;
+            background: #24221f;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #analyzeButton:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+
+        /* RESULTS */
+        .result-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #d8d0c4;
+            background: #f5f0e8;
+        }
+
+        .result-card span {
+            color: #6d675f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .result-card strong {
+            color: #24221f;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 800px) {
+            nav {
+                gap: 15px;
+            }
+
+            .analysis-container {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .page-heading {
+                padding: 50px 15px 30px;
+            }
+
+            .page-heading h1 {
+                font-size: 32px;
+            }
+
+            .image-box {
+                height: 280px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            🔬 Food Forensics
+        </div>
+        <nav>
+            <a href="lab.html">Home</a>
+            <a href="#">Lab</a>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADING -->
+    <section class="page-heading">
+        <div class="small-title">
+            🔬 FOOD FORENSIC LAB
+        </div>
+        <h1>
+            🍌 BANANA FORENSICS
+        </h1>
+        <p>
+            Investigate how close your banana is to being declared dead.
+        </p>
+    </section>
+
+    <!-- ANALYSIS -->
+    <section class="analysis-container">
+
+        <!-- LEFT SIDE -->
+        <div class="image-area">
+            <h2>🍌 Your Specimen</h2>
+
+            <div class="image-box">
+                <p id="placeholder">Upload a banana image</p>
+                <img id="bananaImage" alt="Banana preview">
+            </div>
+
+            <!-- FILE INPUT -->
+            <input type="file" id="imageInput" accept="image/*">
+
+            <!-- SELECT BUTTON -->
+            <label for="imageInput" class="upload-button">
+                📷 SELECT BANANA
+            </label>
+
+            <!-- ANALYZE BUTTON -->
+            <button id="analyzeButton" onclick="analyzeBanana()">
+                🔍 ANALYZE
+            </button>
+        </div>
+
+        <!-- CANVAS -->
+        <canvas id="processedCanvas" style="display:none;"></canvas>
+
+        <!-- RIGHT SIDE -->
+        <div class="results-area">
+            <h2>📊 Banana Forensic Report</h2>
+
+            <div class="result-card">
+                <span>Blackness</span>
+                <strong id="blackness">--%</strong>
+            </div>
+
+            <div class="result-card">
+                <span>Banana Vitality</span>
+                <strong id="vitality">--%</strong>
+            </div>
+
+            <div class="result-card">
+                <span>Verdict</span>
+                <strong id="verdict">Waiting...</strong>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        let isOpenCvReady = false;
+
+        function onOpenCvReady() {
+            isOpenCvReady = true;
+        }
+
+        // GET HTML ELEMENTS
+        let imageInput = document.getElementById("imageInput");
+        let bananaImage = document.getElementById("bananaImage");
+        let placeholder = document.getElementById("placeholder");
+
+        // IMAGE PREVIEW
+        imageInput.addEventListener("change", function () {
+            let file = this.files[0];
+            if (!file) return;
+
+            let imageURL = URL.createObjectURL(file);
+            bananaImage.src = imageURL;
+            bananaImage.style.display = "block";
+            placeholder.style.display = "none";
+
+            // Reset previous report readouts
+            document.getElementById("blackness").innerText = "--%";
+            document.getElementById("vitality").innerText = "--%";
+            document.getElementById("verdict").innerText = "Ready to Analyze";
+        });
+
+        // BANANA ANALYSIS ALGORITHM
+        function analyzeBanana() {
+            if (typeof cv === 'undefined' || !isOpenCvReady) {
+                alert("OpenCV.js is still loading. Please wait 2-3 seconds.");
+                return;
+            }
+
+            const imgElement = document.getElementById('bananaImage');
+            if (!imgElement.src || imgElement.naturalWidth === 0) {
+                alert("Please select a banana image first!");
+                return;
+            }
+
+            // 1. Read input image and convert color spaces
+            let src = cv.imread(imgElement);
+            let rgb = new cv.Mat();
+            let hsv = new cv.Mat();
+
+            cv.cvtColor(src, rgb, cv.COLOR_RGBA2RGB);
+            cv.cvtColor(rgb, hsv, cv.COLOR_RGB2HSV);
+
+            let totalBananaPixels = 0;
+            let greenPixels = 0;
+            let yellowPixels = 0;
+            let brownBlackPixels = 0;
+
+            let hsvData = hsv.data;
+
+            // 2. Scan every pixel in HSV color space
+            for (let i = 0; i < hsvData.length; i += 3) {
+                let h = hsvData[i];     // Hue: 0-180
+                let s = hsvData[i + 1]; // Saturation: 0-255
+                let v = hsvData[i + 2]; // Value (Brightness): 0-255
+
+                // --- FILTER OUT BACKGROUND ---
+                // Ignore plain white or light washed-out background
+                if (s < 30 && v > 175) continue;
+                // Ignore blue backgrounds (typical blue backdrop Hue: ~90-135)
+                if (h >= 90 && h <= 135) continue;
+
+                // --- CLASSIFY BANANA TISSUE ---
+                // Dark Brown / Black necrotic tissue
+                if (v < 65 || (h <= 25 && s > 40 && v < 130)) {
+                    brownBlackPixels++;
+                    totalBananaPixels++;
+                }
+                // Green / Unripe peel
+                else if (h >= 35 && h <= 85 && s > 35) {
+                    greenPixels++;
+                    totalBananaPixels++;
+                }
+                // Yellow / Ripe peel
+                else if (h >= 18 && h < 35 && s > 40 && v >= 65) {
+                    yellowPixels++;
+                    totalBananaPixels++;
+                }
+            }
+
+            // Fallback if no banana pixels were detected
+            if (totalBananaPixels < 500) {
+                document.getElementById('verdict').innerText = "⚠️ No Banana Detected";
+                src.delete();
+                rgb.delete();
+                hsv.delete();
+                return;
+            }
+
+            // 3. Compute relative ratios
+            let blacknessPct = Math.round((brownBlackPixels / totalBananaPixels) * 100);
+            let greenPct = Math.round((greenPixels / totalBananaPixels) * 100);
+            let yellowPct = Math.round((yellowPixels / totalBananaPixels) * 100);
+            let vitalityPct = Math.max(0, 100 - blacknessPct);
+
+            // 4. Determine Ripeness Category
+            let verdict = "";
+            if (blacknessPct >= 50) {
+                verdict = "💀 OVERRIPE (Dead / Necrotic Banana)";
+            } else if (greenPct >= 40) {
+                verdict = "🟢 UNRIPE (High Tannins / Firm)";
+            } else if (greenPct >= 6 || blacknessPct <= 5) {
+                verdict = "🌱 HALF-RIPE (Clean Yellow / Green Tips)";
+            } else {
+                verdict = "🍌 FULL RIPE (Optimal Sugar / Spotted)";
+            }
+
+            // 5. Update HTML elements with correct IDs
+            document.getElementById('blackness').innerText = `${blacknessPct}%`;
+            document.getElementById('vitality').innerText = `${vitalityPct}%`;
+            document.getElementById('verdict').innerText = verdict;
+
+            // Output to canvas
+            cv.imshow('processedCanvas', src);
+
+            // Free OpenCV Mats from memory
+            src.delete();
+            rgb.delete();
+            hsv.delete();
+        }
+    </script>
+
+</body>
+
+</html>

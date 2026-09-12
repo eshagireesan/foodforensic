@@ -1,0 +1,445 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f0e8;
+    color: #24221f;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    border-bottom: 1px solid #d8d0c4;
+
+    background: #f5f0e8;
+}
+
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+nav {
+    display: flex;
+    gap: 35px;
+}
+
+
+nav a {
+    text-decoration: none;
+    color: #24221f;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+
+nav a:hover {
+    opacity: 0.5;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.home {
+    height: calc(100vh - 125px);
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   CENTER CONTENT
+========================= */
+
+.hero-content {
+    text-align: center;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+.mini-title {
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+
+.hero-content h1 {
+    font-size: clamp(60px, 9vw, 130px);
+
+    line-height: 0.82;
+
+    letter-spacing: -5px;
+
+    font-weight: 900;
+}
+
+
+.hero-content h1 span {
+    font-weight: 400;
+}
+
+
+.tagline {
+    margin-top: 30px;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    color: #6d675f;
+}
+
+
+.lab-button {
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 14px 28px;
+
+    background: #24221f;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+
+.lab-button:hover {
+    transform: translateY(-3px);
+
+    background: #000000;
+}
+
+
+/* =========================
+   FLOATING OBJECTS
+========================= */
+
+.floating {
+    position: absolute;
+
+    text-decoration: none;
+
+    user-select: none;
+
+    cursor: default;
+}
+
+
+/* BANANA */
+
+.banana {
+    font-size: 65px;
+
+    left: 15%;
+
+    top: 22%;
+
+    cursor: pointer;
+
+    animation: floatBanana 4s ease-in-out infinite;
+
+    transition: transform 0.3s;
+}
+
+
+.banana:hover {
+    transform: scale(1.3) rotate(-8deg);
+}
+
+
+/* MICROSCOPE */
+
+.microscope {
+    font-size: 55px;
+
+    right: 15%;
+
+    top: 18%;
+
+    animation: floatMicroscope 5s ease-in-out infinite;
+}
+
+
+/* CHAPATI */
+
+.chapati {
+    font-size: 65px;
+
+    right: 17%;
+
+    bottom: 20%;
+
+    cursor: pointer;
+
+    animation: floatChapati 4.5s ease-in-out infinite;
+
+    transition: transform 0.3s;
+}
+
+
+.chapati:hover {
+    transform: scale(1.3) rotate(8deg);
+}
+
+
+/* CHAPATI ROLLER */
+
+.roller {
+    font-size: 48px;
+
+    left: 18%;
+
+    bottom: 18%;
+
+    transform: rotate(-25deg);
+
+    animation: floatRoller 5.5s ease-in-out infinite;
+}
+
+
+/* SMALL MAGNIFYING GLASS */
+
+.item-one {
+    font-size: 30px;
+
+    left: 32%;
+
+    top: 15%;
+
+    opacity: 0.7;
+
+    animation: smallFloat 4s ease-in-out infinite;
+}
+
+
+/* SPARKLE */
+
+.item-two {
+    font-size: 25px;
+
+    right: 31%;
+
+    bottom: 25%;
+
+    opacity: 0.6;
+
+    animation: smallFloat 3.5s ease-in-out infinite;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes floatBanana {
+
+    0% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translateY(-18px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+}
+
+
+@keyframes floatMicroscope {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(15px) rotate(4deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+}
+
+
+@keyframes floatChapati {
+
+    0% {
+        transform: translateY(0) rotate(5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(5deg);
+    }
+
+}
+
+
+@keyframes floatRoller {
+
+    0% {
+        transform: translateY(0) rotate(-25deg);
+    }
+
+    50% {
+        transform: translateY(15px) rotate(-18deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(-25deg);
+    }
+
+}
+
+
+@keyframes smallFloat {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    font-size: 11px;
+
+    color: #777067;
+
+    border-top: 1px solid #d8d0c4;
+}
+
+
+footer span {
+    opacity: 0.8;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    nav {
+        gap: 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 65px;
+    }
+
+    .banana {
+        left: 5%;
+        top: 18%;
+        font-size: 45px;
+    }
+
+    .microscope {
+        right: 5%;
+        top: 15%;
+        font-size: 40px;
+    }
+
+    .chapati {
+        right: 7%;
+        bottom: 18%;
+        font-size: 45px;
+    }
+
+    .roller {
+        left: 7%;
+        bottom: 18%;
+        font-size: 35px;
+    }
+
+    .item-one,
+    .item-two {
+        display: none;
+    }
+
+    footer span {
+        display: none;
+    }
+
+}
